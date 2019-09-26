@@ -5,7 +5,7 @@ from graphics import *
 HEIGHT	= 720
 WIDTH	= 1080
 
-last = -1
+last = 4
 winner = 3
 
 arrundo = []
@@ -31,14 +31,14 @@ def init_bgrid(win) :
 	l2 = Line(Point((WIDTH * (2/3)), 0), Point(WIDTH * (2/3), HEIGHT))
 	l3 = Line(Point(0, HEIGHT * (1/3)), Point(WIDTH, HEIGHT * (1/3)))
 	l4 = Line(Point(0, HEIGHT * (2/3)), Point(WIDTH, HEIGHT * (2/3)))
-	l1.setFill('red')
-	l1.setWidth(8)
-	l2.setFill('red')
-	l2.setWidth(8)
-	l3.setFill('red')
-	l3.setWidth(8)
-	l4.setFill('red')
-	l4.setWidth(8)
+	l1.setFill('white')
+	l1.setWidth(4)
+	l2.setFill('white')
+	l2.setWidth(4)
+	l3.setFill('white')
+	l3.setWidth(4)
+	l4.setFill('white')
+	l4.setWidth(4)
 	l1.draw(win)
 	l2.draw(win)
 	l3.draw(win)
@@ -57,18 +57,18 @@ def init_sgrid(win) :
 	l10 = Line(Point(0, HEIGHT * (5/9)), Point(WIDTH, HEIGHT * (5/9)))
 	l11 = Line(Point(0, HEIGHT * (7/9)), Point(WIDTH, HEIGHT * (7/9)))
 	l12 = Line(Point(0, HEIGHT * (8/9)), Point(WIDTH, HEIGHT * (8/9)))
-	l1.setFill('blue')
-	l2.setFill('blue')
-	l3.setFill('blue')
-	l4.setFill('blue')
-	l5.setFill('blue')
-	l6.setFill('blue')
-	l7.setFill('blue')
-	l8.setFill('blue')
-	l9.setFill('blue')
-	l10.setFill('blue')
-	l11.setFill('blue')
-	l12.setFill('blue')
+	l1.setFill('white')
+	l2.setFill('white')
+	l3.setFill('white')
+	l4.setFill('white')
+	l5.setFill('white')
+	l6.setFill('white')
+	l7.setFill('white')
+	l8.setFill('white')
+	l9.setFill('white')
+	l10.setFill('white')
+	l11.setFill('white')
+	l12.setFill('white')
 	l1.draw(win)
 	l2.draw(win)
 	l3.draw(win)
@@ -240,7 +240,7 @@ def main() :
 	won = False
 	turn = 1
 	win = GraphWin("Super tic tac toe", WIDTH, HEIGHT)
-	win.setBackground('grey')
+	win.setBackground(color_rgb(29, 72, 81))
 	init_sgrid(win)
 	init_bgrid(win)
 	while won == False :

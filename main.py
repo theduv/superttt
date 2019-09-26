@@ -5,6 +5,7 @@ from graphics import *
 HEIGHT	= 720
 WIDTH	= 1080
 
+wflag = 0
 last = 4
 winner = 3
 
@@ -118,6 +119,8 @@ def draw_something(win, n1, n2, turn, color) :
 
 def draw_them(win, turn, a, b, c, d) :
 	arrcheck[int(a)] = turn % 2
+	global wflag
+	wflag = 1
 	draw_something(win, a, b, turn, 'green2')
 	draw_something(win, a, c, turn, 'green2')
 	draw_something(win, a, d, turn, 'green2')
@@ -144,7 +147,7 @@ def check_square(win, x, turn) :
 		draw_them(win, turn, x, 3, 4, 5)
 
 def color_last_one(win, color) :
-	if len(arrundo) :
+	if len(arrundo) and wflag == 0 :
 		arrundo[-1][0].undraw()
 		arrundo[-1][0].setOutline(color)
 		arrundo[-1][0].setWidth(2)
@@ -157,6 +160,7 @@ def color_last_one(win, color) :
 
 def click_me(win, turn) :
 	global last
+	global wflag
 	a = win.checkMouse()
 	if a :
 		print(last)
@@ -175,6 +179,7 @@ def click_me(win, turn) :
 				color_last_one(win, 'black')
 				draw_circle(win, x, y, 'cyan')
 			turn += 1
+			wflag = 0
 			bgrid[int(x)][int(y)] = turn % 2
 			check_square(win, x, turn)
 	return (turn)

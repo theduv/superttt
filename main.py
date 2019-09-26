@@ -147,21 +147,24 @@ def color_last_one(win, color) :
 	if len(arrundo) :
 		arrundo[-1][0].undraw()
 		arrundo[-1][0].setOutline(color)
+		arrundo[-1][0].setWidth(2)
 		arrundo[-1][0].draw(win)
 		if arrundo[-1][1] :
 			arrundo[-1][1].undraw()
 			arrundo[-1][1].setOutline(color)
+			arrundo[-1][1].setWidth(2)
 			arrundo[-1][1].draw(win)
 
 def click_me(win, turn) :
 	global last
 	a = win.checkMouse()
 	if a :
+		print(last)
 		arrredo.clear()
 		x = (((a.getX() / WIDTH) * 3) // 1) + 3 * (((a.getY() / HEIGHT) * 3) // 1)
 		y = ((((a.getX() / WIDTH) * 9) // 1) % 3) + 3 * (((((a.getY() / HEIGHT) * 9) // 1)) % 3)
 		if bgrid[int(x)][int(y)] is not 3 or (last is not -1 and int(x) is not int(last)) :
-			print("ERROR APE")
+			print("ERROR")
 			print(x, last)
 		else :
 			last = y
@@ -176,36 +179,45 @@ def click_me(win, turn) :
 			check_square(win, x, turn)
 	return (turn)
 
+def fun_undo (win, turn) :
+	zz = arrundo[-1]
+	zz[0].undraw()
+	if zz[1] is not 0 :
+		zz[1].undraw()
+	tmp1 = arrundo.pop()
+	bgrid[int(arrcoor[-1][0])][int(arrcoor[-1][1])] = 3
+	tmp2 = arrcoor.pop()
+	arrredo.append(tmp1)
+	arrcooa.append(tmp2)
+	last = arrcoor[-1][1]
+	turn -= 1
+	color_last_one(win, 'cyan')
+	return (turn)
+
+def fun_redo(win, turn) :
+	zz = arrredo[-1]
+	zz[0].draw(win)
+	if zz[1] is not 0 :
+		zz[1].draw(win)
+	color_last_one(win, 'black')
+	tmp1 = arrredo.pop()
+	arrundo.append(tmp1)
+	bgrid[int(arrcooa[-1][0])][int(arrcooa[-1][1])] = turn % 2
+	tmp2 = arrcooa.pop()
+	arrcoor.append(tmp2)
+	last = arrcoor[-1][1]
+	turn += 1
+	color_last_one(win, 'cyan')
+	return (turn)
+
 def check_keys(win, turn) :
 	global last
 	t = win.checkKey()
 	if t :
-		if t == 'u' and len(arrundo) > 0:
-			zz = arrundo[-1]
-			zz[0].undraw()
-			if zz[1] is not 0 :
-				zz[1].undraw()
-			tmp1 = arrundo.pop()
-			bgrid[int(arrcoor[-1][0])][int(arrcoor[-1][1])] = 3
-			tmp2 = arrcoor.pop()
-			last = arrcoor[-1][1]
-			arrredo.append(tmp1)
-			arrcooa.append(tmp2)
-			turn -= 1
-			color_last_one(win, 'cyan')
-		if t == 'r' and len(arrredo) > 0 :
-			zz = arrredo[-1]
-			zz[0].draw(win)
-			if zz[1] is not 0 :
-				zz[1].draw(win)
-			tmp1 = arrredo.pop()
-			arrundo.append(tmp1)
-			bgrid[int(arrcooa[-1][0])][int(arrcooa[-1][1])] = turn % 2
-			last = arrcooa[-1][1]
-			tmp2 = arrcooa.pop()
-			arrcoor.append(tmp2)
-			turn += 1
-			color_last_one(win, 'cyan')
+		if t == 'u' and len(arrundo) :
+			turn = fun_undo(win, turn)
+		if t == 'r' and len(arrredo) :
+			turn = fun_redo(win, turn)
 		if t == 'p' :
 			print(bgrid)
 		if t == 'q' :
@@ -239,7 +251,7 @@ def check_map() :
 def main() :
 	won = False
 	turn = 1
-	win = GraphWin("Super tic tac toe", WIDTH, HEIGHT)
+	win = GraphWin("STTT", WIDTH, HEIGHT)
 	win.setBackground(color_rgb(29, 72, 81))
 	init_sgrid(win)
 	init_bgrid(win)
@@ -247,7 +259,7 @@ def main() :
 		turn = click_me(win, turn)
 		turn = check_keys(win, turn)
 		won = check_map()
-	if winner == 0 :
+	if winner %22 :
 		c = Circle(Point(WIDTH / 2, HEIGHT / 2), HEIGHT - 20)
 		c.setOutline('cyan')
 		c.setWidth(4)

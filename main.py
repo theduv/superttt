@@ -190,11 +190,13 @@ def fun_undo (win, turn) :
 	if zz[1] is not 0 :
 		zz[1].undraw()
 	tmp1 = arrundo.pop()
-	bgrid[int(arrcoor[-1][0])][int(arrcoor[-1][1])] = 3
+	if len(arrcoor) :
+		bgrid[int(arrcoor[-1][0])][int(arrcoor[-1][1])] = 3
 	tmp2 = arrcoor.pop()
 	arrredo.append(tmp1)
 	arrcooa.append(tmp2)
-	last = arrcoor[-1][1]
+	if len(arrcoor) :
+		last = arrcoor[-1][1]
 	turn -= 1
 	color_last_one(win, 'cyan')
 	return (turn)

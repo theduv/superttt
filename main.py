@@ -198,7 +198,6 @@ def fun_undo (win, turn) :
 	if len(arrcoor) :
 		last = arrcoor[-1][1]
 	turn -= 1
-	color_last_one(win, 'cyan')
 	return (turn)
 
 def fun_redo(win, turn) :
@@ -255,6 +254,14 @@ def check_map() :
 	return (False)
 	
 
+def color_cursquare(win, sq, color) :
+	p1 = Point(((sq % 3) * (1/3) * WIDTH), ((sq // 3) * (1/3) * HEIGHT))
+	p2 = Point(p1.getX() + WIDTH / 3, p1.getY() + HEIGHT / 3)
+	r = Rectangle(p1, p2)
+	r.setOutline(color)
+	r.setWidth(4)
+	r.draw(win)
+
 def main() :
 	won = False
 	turn = 1
@@ -262,11 +269,16 @@ def main() :
 	win.setBackground(color_rgb(29, 72, 81))
 	init_sgrid(win)
 	init_bgrid(win)
+	color_cursquare(win, last, 'blue')
 	while won == False :
+		tmp = last
 		turn = click_me(win, turn)
 		turn = check_keys(win, turn)
 		won = check_map()
-	if winner %22 :
+		if tmp is not last :
+			color_cursquare(win, tmp, 'white')
+			color_cursquare(win, last, 'blue')
+	if winner % 2 :
 		c = Circle(Point(WIDTH / 2, HEIGHT / 2), HEIGHT - 20)
 		c.setOutline('cyan')
 		c.setWidth(4)

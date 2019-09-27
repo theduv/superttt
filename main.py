@@ -1,9 +1,8 @@
 #!/usr/bin/python
 
+from startwin import *
 from graphics import *
-
-HEIGHT	= 720
-WIDTH	= 1080
+from random import *
 
 SHEIGHT	= HEIGHT * 0.8
 SWIDTH	= WIDTH * 0.8
@@ -11,6 +10,7 @@ SWIDTH	= WIDTH * 0.8
 wflag = 0
 last = 4
 winner = 3
+current_player = randint(0, 1)
 
 arrundo = []
 arrredo = []
@@ -29,62 +29,41 @@ sgrid7 = [3, 3, 3, 3, 3, 3, 3, 3, 3]
 sgrid8 = [3, 3, 3, 3, 3, 3, 3, 3, 3]
 bgrid = [sgrid0, sgrid1, sgrid2, sgrid3, sgrid4, sgrid5, sgrid6, sgrid7, sgrid8]
 
+def print_players(win, players) :
+    player0 = Text(Point(SWIDTH / 3, SHEIGHT + ((1/10) * SHEIGHT)), "PLAYER 1 : " + players[0].upper())
+    player1 = Text(Point(SWIDTH / 3, SHEIGHT + ((15/100) * SHEIGHT)), "PLAYER 2 : " + players[1].upper())
+    player0.setFace('helvetica')
+    player0.setSize(20)
+    player1.setFace('helvetica')
+    player1.setSize(20)
+    player0.setTextColor('white' if current_player is not 0 else 'red')
+    player1.setTextColor('white' if current_player is not 1 else 'red')
+    player0.draw(win)
+    player1.draw(win)
 
 def init_bgrid(win) :
-    l1 = Line(Point(SWIDTH * (1/3), 0), Point(SWIDTH * (1/3), SHEIGHT))
-    l2 = Line(Point((SWIDTH * (2/3)), 0), Point(SWIDTH * (2/3), SHEIGHT))
-    l3 = Line(Point(0, SHEIGHT * (1/3)), Point(SWIDTH, SHEIGHT * (1/3)))
-    l4 = Line(Point(0, SHEIGHT * (2/3)), Point(SWIDTH, SHEIGHT * (2/3)))
-    l1.setFill('white')
-    l1.setWidth(4)
-    l2.setFill('white')
-    l2.setWidth(4)
-    l3.setFill('white')
-    l3.setWidth(4)
-    l4.setFill('white')
-    l4.setWidth(4)
-    l1.draw(win)
-    l2.draw(win)
-    l3.draw(win)
-    l4.draw(win)
+    i = 1
+    while i < 3 :
+        l = Line(Point(SWIDTH * (i/3), 0), Point(SWIDTH * (i/3), SHEIGHT))
+        l.setFill('white')
+        l.setWidth(4)
+        l.draw(win)
+        l = Line(Point(0, SHEIGHT * (i/3)), Point(SWIDTH, SHEIGHT * (i/3)))
+        l.setFill('white')
+        l.setWidth(4)
+        l.draw(win)
+        i += 1
 
 def init_sgrid(win) :
-    l1 = Line(Point(SWIDTH * (1/9), 0), Point(SWIDTH * (1/9), SHEIGHT))
-    l2 = Line(Point(SWIDTH * (2/9), 0), Point(SWIDTH * (2/9), SHEIGHT))
-    l3 = Line(Point(SWIDTH * (4/9), 0), Point(SWIDTH * (4/9), SHEIGHT))
-    l4 = Line(Point(SWIDTH * (5/9), 0), Point(SWIDTH * (5/9), SHEIGHT))
-    l5 = Line(Point(SWIDTH * (7/9), 0), Point(SWIDTH * (7/9), SHEIGHT))
-    l6 = Line(Point(SWIDTH * (8/9), 0), Point(SWIDTH * (8/9), SHEIGHT))
-    l7 = Line(Point(0, SHEIGHT * (1/9)), Point(SWIDTH, SHEIGHT * (1/9)))
-    l8 = Line(Point(0, SHEIGHT * (2/9)), Point(SWIDTH, SHEIGHT * (2/9)))
-    l9 = Line(Point(0, SHEIGHT * (4/9)), Point(SWIDTH, SHEIGHT * (4/9)))
-    l10 = Line(Point(0, SHEIGHT * (5/9)), Point(SWIDTH, SHEIGHT * (5/9)))
-    l11 = Line(Point(0, SHEIGHT * (7/9)), Point(SWIDTH, SHEIGHT * (7/9)))
-    l12 = Line(Point(0, SHEIGHT * (8/9)), Point(SWIDTH, SHEIGHT * (8/9)))
-    l1.setFill('white')
-    l2.setFill('white')
-    l3.setFill('white')
-    l4.setFill('white')
-    l5.setFill('white')
-    l6.setFill('white')
-    l7.setFill('white')
-    l8.setFill('white')
-    l9.setFill('white')
-    l10.setFill('white')
-    l11.setFill('white')
-    l12.setFill('white')
-    l1.draw(win)
-    l2.draw(win)
-    l3.draw(win)
-    l4.draw(win)
-    l5.draw(win)
-    l6.draw(win)
-    l7.draw(win)
-    l8.draw(win)
-    l9.draw(win)
-    l10.draw(win)
-    l11.draw(win)
-    l12.draw(win)
+    i = 1
+    while i < 10 :
+        l = Line(Point(SWIDTH * (i/9), 0), Point(SWIDTH * (i/9), SHEIGHT))
+        l.setFill('white')
+        l.draw(win)
+        l = Line(Point(0, SHEIGHT * (i/9)), Point(SWIDTH, SHEIGHT * (i/9)))
+        l.setFill('white')
+        l.draw(win)
+        i += 1
 
 def	draw_cross(win, n1, n2, color) :
     p1 = Point(((SWIDTH * ((n1 % 3)/3)) + (SWIDTH * ((n2 % 3)/9))), ((SHEIGHT * ((n1 // 3)/3)) + (SHEIGHT * ((n2 // 3)/9))))
@@ -161,9 +140,10 @@ def color_last_one(win, color) :
             arrundo[-1][1].setWidth(2)
             arrundo[-1][1].draw(win)
 
-def click_me(win, turn) :
+def click_me(win, turn, players) :
     global last
     global wflag
+    global current_player
     a = win.checkMouse()
     if a :
         arrredo.clear()
@@ -181,6 +161,8 @@ def click_me(win, turn) :
                 color_last_one(win, 'black')
                 draw_circle(win, x, y, 'cyan')
             turn += 1
+            current_player = 1 if current_player is 0 else 0
+            print_players(win, players)
             wflag = 0
             bgrid[int(x)][int(y)] = turn % 2
             check_square(win, x, turn)
@@ -264,59 +246,25 @@ def color_cursquare(win, sq, color) :
     r.setWidth(4)
     r.draw(win)
 
-def get_names() :
-    win = GraphWin("START", WIDTH / 2, HEIGHT / 2)
-    win.setBackground(color_rgb(29, 72, 81))
-    label = Text(Point((WIDTH / 2) * 0.2, (HEIGHT / 2) * 0.1), "Player names :")
-    label.setStyle('italic')
-    label.setSize(10)
-    label.draw(win)
-    text1 = Entry(Point((WIDTH / 2) * 0.2, (HEIGHT / 2) * 0.2), 20)
-    text1.draw(win)
-    text2 = Entry(Point((WIDTH / 2) * 0.2, (HEIGHT / 2) * 0.3), 20)
-    text2.draw(win)
-    win.getMouse()
-    players = [0, 0]
-    players[0] = text1.getText()
-    players[1] = text2.getText()
-    print(players)
-    win.close()
-
 def main() :
-    get_names()
+    players = get_names()
+    print(players)
     won = False
     turn = 1
     win = GraphWin("STTT", WIDTH, HEIGHT)
     win.setBackground(color_rgb(29, 72, 81))
     init_sgrid(win)
     init_bgrid(win)
+    print_players(win, players)
     color_cursquare(win, last, 'blue')
     while won == False :
         tmp = last
-        turn = click_me(win, turn)
+        turn = click_me(win, turn, players)
         turn = check_keys(win, turn)
         won = check_map()
         if tmp is not last :
             color_cursquare(win, tmp, 'white')
             color_cursquare(win, last, 'blue')
-    if winner % 2 :
-        c = Circle(Point(SWIDTH / 2, SHEIGHT / 2), SHEIGHT - 20)
-        c.setOutline('cyan')
-        c.setWidth(4)
-        c.draw(win)
-    else :
-        p1 = Point(0, 0)
-        p2 = Point(SWIDTH, SHEIGHT)
-        p3 = Point(0, SHEIGHT)
-        p4 = Point(SWIDTH, 0)
-        l1 = Line(p1, p2)
-        l2 = Line(p3, p4)
-        l1.setOutline('cyan')
-        l2.setOutline('cyan')
-        l1.setWidth(4)
-        l2.setWidth(4)
-        l1.draw(win)
-        l2.draw(win)
     while 1 :
         if win.checkKey() == 'q' :
             win.close()

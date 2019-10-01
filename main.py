@@ -145,9 +145,10 @@ def color_last_one(win, color) :
 			arrundo[-1][1].draw(win)
 
 def is_full(x) :
-	if 3 not in bgrid[x] :
-		return (True)
-	else :
+	#print(bgrid[x])
+	#if 3 not in bgrid[x] :
+#		return (True)
+#	else :
 		return (False)
 
 def click_me(win, turn, players) :

@@ -144,6 +144,12 @@ def color_last_one(win, color) :
 			arrundo[-1][1].setWidth(2)
 			arrundo[-1][1].draw(win)
 
+def is_full(x) :
+	if 3 not in bgrid[x] :
+		return (True)
+	else :
+		return (False)
+
 def click_me(win, turn, players) :
 	global last
 	global wflag
@@ -153,9 +159,8 @@ def click_me(win, turn, players) :
 		arrredo.clear()
 		x = (((a.getX() / SWIDTH) * 3) // 1) + 3 * (((a.getY() / SHEIGHT) * 3) // 1)
 		y = ((((a.getX() / SWIDTH) * 9) // 1) % 3) + 3 * (((((a.getY() / SHEIGHT) * 9) // 1)) % 3)
-		if bgrid[int(x)][int(y)] is not 3 or (last is not -1 and int(x) is not int(last)) :
+		if bgrid[int(x)][int(y)] is not 3 or (last is not -1 and int(x) is not int(last)) or is_full(x) :
 			print("ERROR")
-			print(x, last)
 		else :
 			last = y
 			if turn % 2 :

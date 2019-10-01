@@ -7,7 +7,6 @@ SWIDTH	= WIDTH * 0.8
 
 wflag = 0
 last = 4
-winner = 3
 current_player = randint(0, 1)
 
 tabnames = [0, 0]
@@ -220,27 +219,25 @@ def check_keys(win, turn) :
 			exit (0)
 	return (turn)
 
-def check_map() :
+def check_won() :
 	global winner
 	if arrcheck[0] == arrcheck[1] and arrcheck[1] == arrcheck[2] and arrcheck[0] is not 3 :
-		winner = arrcheck[0]
+		return (arrcheck[0])
 	elif arrcheck[2] == arrcheck[5] and arrcheck[5] == arrcheck[8] and arrcheck[2] is not 3 :
-		winner = arrcheck[2]
+		return (arrcheck[2])
 	elif arrcheck[6] == arrcheck[7] and arrcheck[7] == arrcheck[8] and arrcheck[6] is not 3 :
-		winner = arrcheck[6]
+		return (arrcheck[6])
 	elif arrcheck[0] == arrcheck[3] and arrcheck[3] == arrcheck[6] and arrcheck[0] is not 3 :
-		winner = arrcheck[0]
+		return (arrcheck[0])
 	elif arrcheck[0] == arrcheck[4] and arrcheck[4] == arrcheck[8] and arrcheck[0] is not 3 :
-		winner = arrcheck[0]
+		return (arrcheck[0])
 	elif arrcheck[2] == arrcheck[4] and arrcheck[4] == arrcheck[6] and arrcheck[2] is not 3 :
-		winner = arrcheck[2]
+		return (arrcheck[2])
 	elif arrcheck[1] == arrcheck[4] and arrcheck[4] == arrcheck[7] and arrcheck[1] is not 3 :
-		winner = arrcheck[1]
+		return (arrcheck[1])
 	elif arrcheck[3] == arrcheck[4] and arrcheck[4] == arrcheck[5] and arrcheck[3] is not 3 :
-		winner = arrcheck[3]
-	if winner is not 3 :
-		return (True)
-	return (False)
+		return (arrcheck[3])
+	return (3)
 
 
 def color_cursquare(win, sq, color) :
@@ -254,7 +251,7 @@ def color_cursquare(win, sq, color) :
 def main() :
 	players = get_names()
 	print(players)
-	won = False
+	won = 3 
 	turn = 1
 	win = GraphWin("STTT", WIDTH, HEIGHT)
 	win.setBackground(color_rgb(29, 72, 81))
@@ -262,14 +259,19 @@ def main() :
 	init_bgrid(win)
 	print_players(win, players)
 	color_cursquare(win, last, 'blue')
-	while won == False :
+	while won == 3 :
 		tmp = last
 		turn = click_me(win, turn, players)
 		turn = check_keys(win, turn)
-		won = check_map()
 		if tmp is not last :
 			color_cursquare(win, tmp, 'white')
 			color_cursquare(win, last, 'blue')
+		won = check_won()
+	winner = Text(Point((2/3) * SWIDTH, SHEIGHT + (125/1000) * SHEIGHT), players[won] + " won the game !")
+	winner.setFace('helvetica')
+	winner.setSize(20)
+	winner.setTextColor(color_rgb(63, 122, 77))
+	winner.draw(win)
 	while 1 :
 		if win.checkKey() == 'q' :
 			win.close()

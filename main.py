@@ -275,5 +275,6 @@ def main() :
 	while 1 :
 		if win.checkKey() == 'q' :
 			win.close()
+			break
 
 main()

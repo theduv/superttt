@@ -1,4 +1,4 @@
-![Alt text](usage.png?raw=true)
+<img src="./img.png" width="100" height="100">
 
 # SUPERTTT
 

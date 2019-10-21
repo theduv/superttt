@@ -1,4 +1,4 @@
-![Alt text](usage.png | width=50)
+![Alt text](usage.png?raw=true)
 
 # SUPERTTT
 

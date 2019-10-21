@@ -1,4 +1,4 @@
-<img src="./usage.png" width="400" height="400">
+<img src="./usage.png" width="600" height="400">
 
 # SUPERTTT
 

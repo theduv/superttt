@@ -4,6 +4,7 @@
 
 ### Prerequisites
 * python3
+* tkinter
 
 ### Installation
 * `git clone https://www.github.com/theduv/superttt`
